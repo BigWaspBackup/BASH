@@ -516,7 +516,6 @@ var
 begin
   CurrentXP := XPBar.Read();
   GainedXP := CurrentXP - startXP;
-  ClearDebug();
   Runtime := Timer.ElapsedTime;
   Totalshards := 0;
   Currentshards := Inventory.CountItemStack('Blessed bone shards');

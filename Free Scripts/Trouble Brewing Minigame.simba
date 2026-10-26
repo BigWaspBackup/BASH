@@ -1649,8 +1649,6 @@ var
   FletchingXP: Integer;
   CookingXP: Integer;
 begin
-  if Self.GetState() <> STATE_WAITING_FOR_GAME then
-    ClearDebug();
   if IsEndGameInterfaceOpen() then
     CloseEndGameInterface();
   CurrentXP := XPBar.Read();

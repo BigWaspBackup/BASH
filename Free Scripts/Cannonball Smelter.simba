@@ -858,7 +858,6 @@ var
   Runtime, XPPerHour, CurrentXP, GainedXP, Profit: Integer;
 begin
   XPBar.EarnedXP();
-  ClearDebug();
   CurrentXP := Self.SafeReadXPBar();
   GainedXP := CurrentXP - StartXP;
   Runtime := Timer.ElapsedTime;

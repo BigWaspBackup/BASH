@@ -2608,8 +2608,6 @@ begin
   StopAtLevel.SetAvailableSkills(AGILITY_STOP_AT_LEVEL_SKILLS);
   inherited;
 
-  ClearDebug();
-
   if RSClient.Mode <> ERSClientMode.FIXED then
     TerminateScript('FIXED CLASSIC mode is required');
 

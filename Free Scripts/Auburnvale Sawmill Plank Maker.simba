@@ -1305,8 +1305,6 @@ begin
   else
     WriteLn('[AI Chatbot] Disabled');
 
-  ClearDebug();
-
   if (RSClient.Mode <> ERSClientMode.FIXED) then
   begin
     WriteLn('[FAILSAFE] ERROR: FIXED CLASSIC is required.');

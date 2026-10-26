@@ -511,7 +511,6 @@ var
   i: Integer;
   RareItemFound: Boolean;
 begin
-  ClearDebug();
   CurrentXP := XPBar.Read();
   GainedXP := CurrentXP - StartXP;
   Runtime := Timer.ElapsedTime;

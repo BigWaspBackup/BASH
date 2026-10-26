@@ -587,7 +587,6 @@ begin
   SetRequiredItemsForSpell(CHOSENSPELL, AstralRunesRequired, RequiredItemArray5);
   Timer.Start();
   currentLevel := Stats.GetLevel(ERSSkill.MAGIC);
-  //ClearDebug();
   if Inventory.ContainsItem(RunePouch) then
   begin
     HasRunePouch := True;
@@ -2186,7 +2185,6 @@ var
   i: Integer;
 begin
   RSClient.Image.Clear;
-  ClearDebug();
   XPBar.EarnedXP();
   if not MainScreen.HasInterface() then
     CurrentXP := XPBar.Read();
