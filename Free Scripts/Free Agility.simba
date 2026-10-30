@@ -1,5 +1,5 @@
 {$UNDEF SCRIPT_ID}{$DEFINE SCRIPT_ID := 'e4b7a2c9-1f58-4d63-8a20-6c9e3b1d7f45'}
-{$UNDEF SCRIPT_REVISION}{$DEFINE SCRIPT_REVISION := '1'}
+{$UNDEF SCRIPT_REVISION}{$DEFINE SCRIPT_REVISION := '2'}
 {$IFDEF WINDOWS}{$DEFINE SCRIPT_GUI}{$ENDIF}
 {$I SRL-B/osr.simba}
 {$I BashLib/osr.simba}
@@ -2751,11 +2751,32 @@ begin
   Self.Report();
 end;
 
-begin
-  InitAgilityCatalog();
-  SettingsHandler.CheckBashProfileRequired();
-  {$IFDEF SCRIPT_GUI}
-  Sync(@Config.Run);
-  {$ENDIF}
-  Script.Run(WLSettings.MaxActions, WLSettings.MaxTime);
+{$IFDEF SCRIPT_GUI}
+procedure ApplySavedActionSettings();
+begin
+  BASHUseLauncherAccount();
+  Config.InitGUI();
+  Config.Username := BASHPremiumCurrentUser();
+  Config.LoadActionSettings();
+  if Trim(Config.SavedCourse) = '' then
+  TerminateScript('Choose a course in the Simba form or launcher settings, then press Start.');
+  Script.CourseIndex := FindCourseIndex(Config.SavedCourse);
+  BASHApplyStoredAntiban(Config.Username);
+  WriteLn('[LAUNCHER] Using the saved settings for ', Config.Username);
+end;
+{$ENDIF}
+
+begin
+  InitAgilityCatalog();
+  SettingsHandler.CheckBashProfileRequired();
+  {$IFDEF SCRIPT_GUI}
+  if GetEnvironmentVariable('BASH_LAUNCHER') = '1' then
+  begin
+    ApplySavedActionSettings();
+    BASHSetupLauncherRemoteInput();
+  end
+  else
+    Sync(@Config.Run);
+  {$ENDIF}
+  Script.Run(WLSettings.MaxActions, WLSettings.MaxTime);
 end.

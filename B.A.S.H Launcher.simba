@@ -1,5 +1,5 @@
 {$DEFINE SCRIPT_ID := 'bfde3085-80dc-4bd6-870a-8cb3186a938c'}
-{$DEFINE SCRIPT_REVISION := '40'}
+{$DEFINE SCRIPT_REVISION := '41'}
 
 {.$DEFINE DEVELOPER_MODE}
 
@@ -32,6 +32,10 @@ const
   WASPSCRIPTS_DIR     = ScriptPath + 'waspscripts.com' + DirectorySeparator;
   BASH_PREMIUM_API    = 'https://bash-premium-api.cdn-gate.workers.dev';
   BASH_DISCORD_URL    = 'https://discord.gg/qsmKs5uKfR';
+  BASH_SETUP_DOWNLOAD_URL =
+    'https://github.com/BigWaspBackup/bash-setup/releases/latest/download/bash-setup.exe';
+  BASH_SETUP_RELEASES_URL =
+    'https://github.com/BigWaspBackup/bash-setup/releases/latest';
   BASH_LICENSE_HEADER = 'X-License-Key';
   BASH_INSTALL_HEADER = 'X-Install-Id';
   BASH_LAUNCHER_FILE  = 'bash-launcher.simba';
@@ -7416,7 +7420,7 @@ begin
 
   Self.Form.Init(nil);
   Self.Form.SetName('bash_form');
-  Self.Form.setCaption('B.A.S.H - BigAussie Script House');
+  Self.Form.setCaption('B.A.S.H (legacy) - BigAussie Script House');
   Self.Form.setWidth(Self.Size.X);
   Self.Form.setHeight(Self.Size.Y);
   Self.Form.getConstraints().SetInterfaceConstraints(Self.Size.X, Self.Size.Y, Self.Size.X, Self.Size.Y);
@@ -7463,15 +7467,25 @@ end;
 
 function BashDefaultSimbaBody(): String;
 begin
-  Result :=
-    '(* Thank you for choosing B.A.S.H - BigAussie Script House *)' + LineEnding +
-    '(* Discord: https://discord.gg/qsmKs5uKfR *)' + LineEnding +
-    LineEnding +
-    '(* To start simply double click the green play button. *)' + LineEnding +
-    LineEnding +
-    'begin' + LineEnding +
-    '  SimbaRunInTab(ScriptPath + ''bash-launcher.simba'');' + LineEnding +
-    'end.' + LineEnding;
+  if FileExists(AppPath + 'BASH.exe') then
+    Result :=
+      '(* Thank you for choosing B.A.S.H - BigAussie Script House *)' + LineEnding +
+      '(* Discord: https://discord.gg/qsmKs5uKfR *)' + LineEnding +
+      LineEnding +
+      '(* Use the B.A.S.H desktop shortcut to open BASH Launcher 2.0 (BASH.exe). *)' + LineEnding +
+      LineEnding +
+      'begin' + LineEnding +
+      'end.' + LineEnding
+  else
+    Result :=
+      '(* Thank you for choosing B.A.S.H - BigAussie Script House *)' + LineEnding +
+      '(* Discord: https://discord.gg/qsmKs5uKfR *)' + LineEnding +
+      LineEnding +
+      '(* To start simply double click the green play button. *)' + LineEnding +
+      LineEnding +
+      'begin' + LineEnding +
+      '  SimbaRunInTab(ScriptPath + ''bash-launcher.simba'');' + LineEnding +
+      'end.' + LineEnding;
 end;
 
 function PatchDefaultSimbaToBashLauncher(): Boolean;
@@ -8049,6 +8063,83 @@ var
 {$ENDIF}
 {$ENDIF}
 
+(*
+  People still opening this Simba launcher get a one-shot path to BASH Launcher 2.0.
+  If BASH.exe is already installed we offer to open it. Otherwise we send them to
+  bash-setup.exe so the desktop shortcut and libs are upgraded in place.
+*)
+procedure OfferBashLauncher2Upgrade();
+var
+  exe: String;
+  proc: TProcess;
+begin
+  exe := AppPath + 'BASH.exe';
+
+  if FileExists(exe) then
+  begin
+    if MessageDlg(
+      'BASH Launcher 2.0',
+      'You are running the old Simba launcher.' + LineEnding + LineEnding +
+      'BASH Launcher 2.0 is already installed as BASH.exe.' + LineEnding +
+      'Use the B.A.S.H desktop shortcut from now on to update libraries and run scripts.' + LineEnding + LineEnding +
+      'Open BASH Launcher 2.0 now?' + LineEnding +
+      '(No keeps this legacy window open.)',
+      TMsgDlgType.mtConfirmation,
+      [mbYes, mbNo]
+    ) <> mrYes then
+      Exit;
+
+    WriteLn('[B.A.S.H] Opening BASH Launcher 2.0');
+    try
+      proc.Init(nil);
+      proc.SetCommandLine('"' + exe + '"');
+      proc.Execute();
+      proc.Free();
+    except
+      WriteLn('[B.A.S.H] Could not start BASH.exe: ', GetExceptionMessage());
+      MessageDlg(
+        'BASH Launcher 2.0',
+        'Could not start BASH.exe.' + LineEnding + LineEnding +
+        'Use the B.A.S.H shortcut on your desktop, or re-run bash-setup.exe from:' + LineEnding +
+        BASH_SETUP_RELEASES_URL,
+        TMsgDlgType.mtError,
+        [mbOK]
+      );
+      Exit;
+    end;
+    TerminateScript();
+    Exit;
+  end;
+
+  if MessageDlg(
+    'BASH Launcher 2.0 available',
+    'A new desktop launcher is available: BASH Launcher 2.0.' + LineEnding + LineEnding +
+    'It replaces this Simba window for installing, updating libs, and running scripts.' + LineEnding +
+    'Your scripts, credentials, and configs are kept.' + LineEnding + LineEnding +
+    '1. Download bash-setup.exe' + LineEnding +
+    '2. Close this window / stop scripts' + LineEnding +
+    '3. Run the installer' + LineEnding +
+    '4. Open the B.A.S.H desktop shortcut' + LineEnding + LineEnding +
+    'Open the download now?' + LineEnding +
+    '(No keeps this legacy launcher open for now.)',
+    TMsgDlgType.mtInformation,
+    [mbYes, mbNo]
+  ) <> mrYes then
+    Exit;
+
+  WriteLn('[B.A.S.H] Opening BASH Launcher 2.0 installer download');
+  OpenWebPage(BASH_SETUP_DOWNLOAD_URL);
+  MessageDlg(
+    'BASH Launcher 2.0',
+    'Your browser should download bash-setup.exe.' + LineEnding + LineEnding +
+    'Close Simba, run the installer, then use the B.A.S.H desktop shortcut.' + LineEnding + LineEnding +
+    'If the download did not start, open:' + LineEnding +
+    BASH_SETUP_RELEASES_URL,
+    TMsgDlgType.mtInformation,
+    [mbOK]
+  );
+end;
+
 begin
   ClearDebug();
   WaspAsync.Setup();
@@ -8059,5 +8150,6 @@ begin
   GitHubClient.Setup();
   CheckBashLauncherUpdate();
   EnsureBashUiAssets();
+  OfferBashLauncher2Upgrade();
   WaspForm.Run();
 end.

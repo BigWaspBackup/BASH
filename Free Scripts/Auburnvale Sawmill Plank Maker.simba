@@ -1,5 +1,5 @@
 {$UNDEF SCRIPT_ID}{$DEFINE SCRIPT_ID := 'c8e4a1b7-3f26-4d9e-a5c0-1b7e9d4f2a86'}
-{$UNDEF SCRIPT_REVISION}{$DEFINE SCRIPT_REVISION := '3'}
+{$UNDEF SCRIPT_REVISION}{$DEFINE SCRIPT_REVISION := '4'}
 {$IFDEF WINDOWS}{$DEFINE SCRIPT_GUI}{$ENDIF}
 {$DEFINE BASH_FARM_WITH_BIRDHOUSE}
 {$I SRL-B/osr.simba}
@@ -1403,11 +1403,34 @@ begin
   until Self.ShouldStop();
 end;
 
-begin
-  SettingsHandler.CheckBashProfileRequired();
-  Discord.Setup();
-  {$IFDEF SCRIPT_GUI}
-  Sync(@Config.Run);
-  {$ENDIF}
-  MillRun.Run(WLSettings.MaxActions, WLSettings.MaxTime);
+{$IFDEF SCRIPT_GUI}
+procedure ApplySavedActionSettings();
+begin
+  BASHUseLauncherAccount();
+  Config.InitGUI();
+  Config.Username := BASHPremiumCurrentUser();
+  Config.LoadActionSettings();
+  if (Config.SavedLogsIndex < 0) or (Config.SavedLogsIndex > High(ASP_LOG_CHOICES)) then
+  Config.SavedLogsIndex := 1;
+  ApplyChosenProduct(ASP_LOG_CHOICES[Config.SavedLogsIndex]);
+  if SCRIPTMODE = '' then
+  SCRIPTMODE := 'Fast';
+  BASHApplyStoredAntiban(Config.Username);
+  WriteLn('[LAUNCHER] Using the saved settings for ', Config.Username);
+end;
+{$ENDIF}
+
+begin
+  SettingsHandler.CheckBashProfileRequired();
+  Discord.Setup();
+  {$IFDEF SCRIPT_GUI}
+  if GetEnvironmentVariable('BASH_LAUNCHER') = '1' then
+  begin
+    ApplySavedActionSettings();
+    BASHSetupLauncherRemoteInput();
+  end
+  else
+    Sync(@Config.Run);
+  {$ENDIF}
+  MillRun.Run(WLSettings.MaxActions, WLSettings.MaxTime);
 end.

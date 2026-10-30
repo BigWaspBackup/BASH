@@ -1,5 +1,5 @@
 {$UNDEF SCRIPT_ID}{$DEFINE SCRIPT_ID := '1218ea6e-f502-46db-9b91-feb89baecbdc'}
-{$DEFINE SCRIPT_REVISION := '9'} 
+{$DEFINE SCRIPT_REVISION := '10'} 
 {$IFDEF WINDOWS}{$DEFINE SCRIPT_GUI}{$ENDIF}
 {$I SRL-B/osr.simba}
 {$I BashLib/osr.simba}
@@ -2791,10 +2791,26 @@ var
   Config: TConfig;
 {$ENDIF}
 
+{$IFDEF SCRIPT_GUI}
+procedure ApplySavedActionSettings();
+begin
+  BASHUseLauncherAccount();
+  Config.InitGUI();
+  Config.Username := BASHPremiumCurrentUser();
+  Config.LoadActionSettings();
+  BASHApplyStoredAntiban(Config.Username);
+  WriteLn('[LAUNCHER] Using the saved settings for ', Config.Username);
+end;
+{$ENDIF}
 
 begin
   {$IFDEF SCRIPT_GUI}
-  if ENABLE_GUI then
+  if GetEnvironmentVariable('BASH_LAUNCHER') = '1' then
+  begin
+    ApplySavedActionSettings();
+    BASHSetupLauncherRemoteInput();
+  end
+  else if ENABLE_GUI then
     Sync(@Config.Run);
   {$ENDIF}
   Script.Run(WLSettings.MaxActions, WLSettings.MaxTime);

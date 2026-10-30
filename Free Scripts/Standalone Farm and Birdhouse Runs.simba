@@ -1,11 +1,12 @@
 {$UNDEF SCRIPT_ID}{$DEFINE SCRIPT_ID := 'cba5ca58-c6d2-48bc-b625-f54e300b4760'}
-{$UNDEF SCRIPT_REVISION}{$DEFINE SCRIPT_REVISION := '9'}
+{$UNDEF SCRIPT_REVISION}{$DEFINE SCRIPT_REVISION := '10'}
 {$DEFINE BASH_FARM_WITH_BIRDHOUSE}
 {$IFDEF WINDOWS}{$DEFINE SCRIPT_GUI}{$ENDIF}
 {$I SRL-B/osr.simba}
 {$I BashLib/osr.simba}
 {$I BashLib/optional/handlers/bashbirdhouse/bashbirdhouserunner.simba}
 {$I BashLib/optional/handlers/bashfarm/bashfarmrunner.simba}
+{$I BashLib/optional/handlers/bashlauncher.simba}
 
 {
 ----------------------------------------------------------------------------------
@@ -504,6 +505,11 @@ begin
 end;
 
 begin
+  if GetEnvironmentVariable('BASH_LAUNCHER') = '1' then
+  begin
+    BASHUseLauncherAccount();
+    BASHSetupLauncherRemoteInput();
+  end;
   Bot.Setup();
   Bot.Run();
 end.
