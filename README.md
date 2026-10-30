@@ -1,10 +1,10 @@
-# BigAussie Simba Scripts 🦘
+# BigAussie Simba Scripts ðŸ¦˜
 
 Color-based Simba scripts for OSRS. Free scripts are open to everyone. Premium and Tester scripts are limited-slot.
 
-All scripts use Simba and are color scripts — no custom plugins, injection, or clients.
+All scripts use Simba and are color scripts â€” no custom plugins, injection, or clients.
 
-**Note:** I design these scripts for myself when maxxing or grinding my accounts. I do not cater to gold farmers — you will have little to no success running these on multiple accounts or trying to create a farm.
+**Note:** I design these scripts for myself when maxxing or grinding my accounts. I do not cater to gold farmers â€” you will have little to no success running these on multiple accounts or trying to create a farm.
 
 **Website**: https://bashscripts.shop/
 **Discord:** https://discord.gg/qsmKs5uKfR
@@ -13,14 +13,13 @@ All scripts use Simba and are color scripts — no custom plugins, injection, or
 
 ## Install
 
-Easiest way to get set up:
+Easiest way to get set up (**BASH Launcher 2.0**):
 
-1. Download **[bash-setup.exe](https://github.com/BigWaspBackup/bash-setup/releases/download/v0.1.1/bash-setup.exe)**
-2. Run the installer and follow the prompts (Simba + B.A.S.H launcher)
-3. Open Simba and run `bash-launcher.simba`
+1. Download **[bash-setup.exe](https://github.com/BigWaspBackup/bash-setup/releases/latest/download/bash-setup.exe)**
+2. Run the installer and follow the prompts (Simba + libs + desktop launcher)
+3. Open the **B.A.S.H** desktop shortcut — that starts **BASH.exe** (BASH Launcher 2.0). Use it to update libraries, install scripts, and run them.
 
-Already got Simba installed? Simply run the B.A.S.H Launcher to get latest libs and scripts.
-https://github.com/BigAussie/BASH/blob/main/B.A.S.H%20Launcher.simba
+You do **not** need to open Simba and run `bash-launcher.simba` anymore. The old Simba launcher script may still be installed for compatibility, but the desktop shortcut is the supported path.
 
 ---
 
@@ -28,30 +27,30 @@ https://github.com/BigAussie/BASH/blob/main/B.A.S.H%20Launcher.simba
 
 This repository is the free script collection. For premium / custom scripts, see below.
 
-### 📜 Magic
-* **`AIO Lunar Spells.simba`** — Lunar spellbook skilling
-* **`Ardy Superheat Iron.simba`** — Iron mine + Superheat at Ardougne Monastery
+### ðŸ“œ Magic
+* **`AIO Lunar Spells.simba`** â€” Lunar spellbook skilling
+* **`Ardy Superheat Iron.simba`** â€” Iron mine + Superheat at Ardougne Monastery
 
-### ⛏️ Mining & Gathering
-* **`Calcified Mining.simba`** — Calcified Mining
-* **`Barronite Miner.simba`** — Barronite Mining
-* **`Salt Miner.simba`** — Salt and Basalt Mining
-* **`Ironwood WoodCutter.simba`** — Ironwood Tree Cutter
+### â›ï¸ Mining & Gathering
+* **`Calcified Mining.simba`** â€” Calcified Mining
+* **`Barronite Miner.simba`** â€” Barronite Mining
+* **`Salt Miner.simba`** â€” Salt and Basalt Mining
+* **`Ironwood WoodCutter.simba`** â€” Ironwood Tree Cutter
 
-### 🏃 Minigames & Activities
-* **`Trouble Brewing Minigame.simba`** — Trouble Brewing
-* **`Squirkin MiniGame.simba`** — Squirkin (archive / dead content)
-* **`Draynor Agility Course.simba`** — Draynor rooftop course
-* **`Cannonball Smelter.simba`** — Free cannonball smelter
+### ðŸƒ Minigames & Activities
+* **`Trouble Brewing Minigame.simba`** â€” Trouble Brewing
+* **`Squirkin MiniGame.simba`** â€” Squirkin (archive / dead content)
+* **`Draynor Agility Course.simba`** â€” Draynor rooftop course
+* **`Cannonball Smelter.simba`** â€” Free cannonball smelter
 
 ---
 
-## 💎 Premium Scripts
+## ðŸ’Ž Premium Scripts
 
-Open-source after purchase. Limited slots — first come, first served.
+Open-source after purchase. Limited slots â€” first come, first served.
 
 ### Why Choose Premium?
-* **Unrestricted Ownership:** All scripts are **open-source**. Once you buy a script, you own the code forever — no obfuscation.
+* **Unrestricted Ownership:** All scripts are **open-source**. Once you buy a script, you own the code forever â€” no obfuscation.
 * **Strictly Limited Slots:** Purchases are capped to keep user volumes low and maximize longevity and security. Spots are first-come, first-served.
 
 ### Combat
@@ -71,7 +70,7 @@ Open-source after purchase. Limited slots — first come, first served.
 
 ---
 
-## 🧪 Currently in Testing
+## ðŸ§ª Currently in Testing
 
 * AIO Agility
 * AIO Smelter & Jewelry
@@ -83,16 +82,16 @@ Open-source after purchase. Limited slots — first come, first served.
 
 ---
 
-## 📩 Access & Inquiries
+## ðŸ“© Access & Inquiries
 
 Slots, pricing, or custom work:
 
-* **Discord:** [@big.aussie](https://discord.gg/qsmKs5uKfR) · Server: https://discord.gg/qsmKs5uKfR
+* **Discord:** [@big.aussie](https://discord.gg/qsmKs5uKfR) Â· Server: https://discord.gg/qsmKs5uKfR
 * **Email:** thebigaussie@proton.me
 
 ---
 
-## ⚖️ Legal Disclaimer & Trademark Notice
+## âš–ï¸ Legal Disclaimer & Trademark Notice
 
 This project is purely educational and intended for automation research using optical color recognition.
 
