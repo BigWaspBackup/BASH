@@ -1,5 +1,5 @@
 {$UNDEF SCRIPT_ID}{$DEFINE SCRIPT_ID := '39927741-0778-4c59-ae4f-8f8463eda121'}
-{$UNDEF SCRIPT_REVISION}{$DEFINE SCRIPT_REVISION := '10'}
+{$UNDEF SCRIPT_REVISION}{$DEFINE SCRIPT_REVISION := '11'}
 {$IFDEF WINDOWS}{$DEFINE SCRIPT_GUI}{$ENDIF}
 {$I SRL-B/osr.simba}
 {$I BashLib/osr.simba}
@@ -409,11 +409,28 @@ end;
 var
   Config: TConfig;
 {$ENDIF}
-
-
-begin
-  {$IFDEF SCRIPT_GUI}
-  Sync(@Config.Run);
-  {$ENDIF}
-  TArdySuperIron.Run(WLSettings.MaxActions, WLSettings.MaxTime);
-end.
+
+{$IFDEF SCRIPT_GUI}
+procedure ApplySavedActionSettings();
+begin
+  BASHUseLauncherAccount();
+  Config.InitGUI();
+  Config.Username := BASHPremiumCurrentUser();
+  Config.LoadActionSettings();
+  BASHApplyStoredAntiban(Config.Username);
+  WriteLn('[LAUNCHER] Using the saved settings for ', Config.Username);
+end;
+{$ENDIF}
+
+begin
+  {$IFDEF SCRIPT_GUI}
+  if GetEnvironmentVariable('BASH_LAUNCHER') = '1' then
+  begin
+    ApplySavedActionSettings();
+    BASHSetupLauncherRemoteInput();
+  end
+  else
+    Sync(@Config.Run);
+  {$ENDIF}
+  TArdySuperIron.Run(WLSettings.MaxActions, WLSettings.MaxTime);
+end.
